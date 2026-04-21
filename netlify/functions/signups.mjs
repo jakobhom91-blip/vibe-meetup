@@ -14,7 +14,7 @@ export default async (req, context) => {
     return new Response('', { status: 200, headers });
   }
 
-  const store = getStore('vibe-meetup');
+  const store = getStore({ name: 'vibe-meetup', consistency: 'strong' });
 
   if (req.method === 'GET') {
     const raw = await store.get(SIGNUPS_KEY);
