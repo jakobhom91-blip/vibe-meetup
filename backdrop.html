@@ -141,6 +141,33 @@
     color: var(--turkis);
     margin-bottom: 6px;
     opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .you-are-here {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(240, 90, 40, 0.15);
+    border: 1px solid rgba(240, 90, 40, 0.35);
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ember);
+    opacity: 1;
+  }
+
+  .you-are-here-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--ember);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2.5s infinite;
   }
 
   .room-title {
@@ -461,7 +488,10 @@
 
     <div class="rooms">
       <div class="room-card">
-        <div class="room-label">Room 1</div>
+        <div class="room-label">
+          Room 1
+          <span class="you-are-here"><span class="you-are-here-dot"></span>You are here</span>
+        </div>
         <div class="room-title">Open Build</div>
         <div class="room-desc">Open your laptop, pick your AI tool and get going. Ask for help, find inspiration, or just build in silence.</div>
       </div>
