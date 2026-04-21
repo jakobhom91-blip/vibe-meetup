@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding Meetup — Backdrop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --petrol: #013138;
+    --forest: #2F5D50;
+    --ember: #F05A28;
+    --turkis: #5DD3C0;
+    --glow: #FBE8BE;
+    --glow-dim: rgba(251,232,190,0.6);
+    --glow-muted: rgba(251,232,190,0.25);
+    --glow-subtle: rgba(251,232,190,0.06);
+    --border: rgba(251,232,190,0.12);
+  }
+
+  html, body {
+    width: 100%; height: 100vh;
+    background: var(--petrol);
+    color: var(--glow);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* LEFT */
+  .left {
+    padding: 52px 52px 52px 56px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    overflow: hidden;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-dot {
+    width: 8px; height: 8px;
+    background: var(--ember);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .brand-text {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--turkis);
+    opacity: 0.8;
+  }
+
+  .hero { flex-shrink: 0; }
+
+  .event-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(40px, 5.5vw, 68px);
+    line-height: 1.0;
+    color: var(--glow);
+    letter-spacing: -0.01em;
+  }
+
+  .event-title em {
+    font-style: italic;
+    color: var(--turkis);
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .pill {
+    font-size: 12px;
+    color: var(--glow-dim);
+    border: 1px solid var(--border);
+    padding: 5px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  .rooms {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  .room-card {
+    background: var(--glow-subtle);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--turkis);
+    opacity: 0.4;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .room-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--turkis);
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .room-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--glow);
+    margin-bottom: 8px;
+  }
+
+  .room-desc {
+    font-size: 13px;
+    color: var(--glow-dim);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .timeline { display: flex; flex-direction: column; gap: 14px; flex-shrink: 0; }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--glow-muted);
+    margin-bottom: 4px;
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .tl-time {
+    font-size: 14px;
+    color: var(--ember);
+    min-width: 50px;
+    font-weight: 500;
+    padding-top: 1px;
+    letter-spacing: 0.02em;
+  }
+
+  .tl-text {
+    font-size: 14px;
+    color: var(--glow-dim);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* RIGHT */
+  .right {
+    padding: 52px 40px 52px 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow: hidden;
+  }
+
+  .qr-section {
+    background: var(--glow);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  .qr-section img {
+    width: 170px;
+    height: 170px;
+    border-radius: 6px;
+    display: block;
+  }
+
+  .qr-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .qr-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(1,49,56,0.45);
+    font-weight: 400;
+  }
+
+  .qr-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--petrol);
+    text-align: center;
+  }
+
+  .live-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--turkis);
+    border-radius: 50%;
+    animation: pulse 2.5s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .live-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--glow-muted);
+  }
+
+  .slot-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .slot-list::-webkit-scrollbar { display: none; }
+
+  .slot-item {
+    background: var(--glow-subtle);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .slot-num {
+    font-size: 11px;
+    color: var(--ember);
+    min-width: 20px;
+    font-weight: 500;
+    padding-top: 3px;
+  }
+
+  .slot-name {
+    font-size: 15px;
+    color: var(--glow);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .slot-topic {
+    font-size: 12px;
+    color: rgba(251,232,190,0.45);
+    margin-top: 3px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: 1;
+    text-align: center;
+    opacity: 0.4;
+  }
+
+  .empty-arrow {
+    font-size: 28px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .empty-text {
+    font-size: 13px;
+    color: var(--glow-dim);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* Config modal */
+  .config-btn {
+    position: fixed;
+    bottom: 14px; right: 14px;
+    background: rgba(1,49,56,0.8);
+    border: 1px solid var(--border);
+    color: rgba(251,232,190,0.2);
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+  .config-btn:hover { color: var(--glow); border-color: rgba(251,232,190,0.3); }
+
+  .config-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(1,49,56,0.9);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .config-overlay.open { display: flex; }
+
+  .config-card {
+    background: #02464f;
+    border: 1px solid rgba(251,232,190,0.15);
+    border-radius: 20px;
+    padding: 36px;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .config-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--glow);
+  }
+
+  .config-card p {
+    font-size: 13px;
+    color: var(--glow-dim);
+    line-height: 1.6;
+  }
+
+  .config-field { display: flex; flex-direction: column; gap: 8px; }
+  .config-field label { font-size: 11px; color: var(--glow-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+  .config-field input {
+    background: var(--glow-subtle);
+    border: 1px solid rgba(251,232,190,0.2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--glow);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+  }
+  .config-field input:focus { border-color: var(--turkis); }
+
+  .config-save {
+    background: var(--ember);
+    color: var(--glow);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .config-save:hover { opacity: 0.85; }
+
+  .config-cancel {
+    background: transparent;
+    border: none;
+    color: var(--glow-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .config-cancel:hover { color: var(--glow); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- LEFT SIDE -->
+  <div class="left">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <div class="brand-text">GROWlab × Vibe Coding Netværk KBH</div>
+    </div>
+
+    <div class="hero">
+      <div class="event-title">
+        Pop-up<br>
+        <em>Vibe Coding</em><br>
+        Meetup
+      </div>
+      <div class="meta-row">
+        <div class="pill">21. april 2026</div>
+        <div class="pill">16:00 – 20:00</div>
+        <div class="pill">Drop-in</div>
+        <div class="pill">Station, Frederiksberg</div>
+      </div>
+    </div>
+
+    <div class="rooms">
+      <div class="room-card">
+        <div class="room-label">Rum 1</div>
+        <div class="room-title">Byg løs</div>
+        <div class="room-desc">Åbn laptop, vælg dit AI-værktøj og kom i gang. Spørg om hjælp, hent inspiration eller sid og byg i stilhed.</div>
+      </div>
+      <div class="room-card">
+        <div class="room-label">Rum 2</div>
+        <div class="room-title">Show & Tell</div>
+        <div class="room-desc">Fra 17:30 kører vi præsentationer. 3–5 min pr. person, feedback fra rummet. Meld dig via QR-koden.</div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="section-label">Program</div>
+      <div class="tl-item">
+        <div class="tl-time">16:00</div>
+        <div class="tl-text">Dørene åbner — find din plads og kom i gang</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">17:30</div>
+        <div class="tl-text">Show & Tell starter — 3–5 min pr. person, spørgsmål og feedback fra rummet</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">20:00</div>
+        <div class="tl-text">Vi lukker — men snakken fortsætter</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+    <div class="qr-section">
+      <div class="qr-top">
+        <div class="qr-eyebrow">Show & Tell</div>
+        <div class="qr-title">Vil du på scenen?</div>
+      </div>
+      <img id="qrImg" src="" alt="QR kode til signup" />
+      <div style="font-size: 12px; color: rgba(1,49,56,0.5); text-align: center; line-height: 1.5;">
+        Scan koden · Skriv dit navn og hvad du viser
+      </div>
+    </div>
+
+    <div class="live-header">
+      <div class="live-dot"></div>
+      <div class="live-label">Tilmeldte — Show & Tell</div>
+    </div>
+
+    <div class="slot-list" id="slotList">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-arrow">↑</div>
+        <div class="empty-text">Scan QR-koden og vær<br>den første på listen</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Config button -->
+<button class="config-btn" onclick="document.getElementById('configOverlay').classList.add('open')">⚙ opsæt</button>
+
+<!-- Config modal -->
+<div class="config-overlay" id="configOverlay">
+  <div class="config-card">
+    <h2>Opsæt signup-URL</h2>
+    <p>Indsæt URL'en til din deployede signup-side. Den bruges til at generere QR-koden herover.</p>
+    <div class="config-field">
+      <label>Signup URL</label>
+      <input type="text" id="signupUrlInput" placeholder="https://din-side.vercel.app/signup.html" />
+    </div>
+    <button class="config-save" onclick="saveConfig()">Gem og opdater QR</button>
+    <button class="config-cancel" onclick="document.getElementById('configOverlay').classList.remove('open')">Annuller</button>
+  </div>
+</div>
+
+<script>
+let knownCount = -1;
+
+// ── Config (signupUrl) ─────────────────────────────────────────────────────
+
+async function loadConfig() {
+  try {
+    const res = await fetch('/api/config');
+    if (!res.ok) return;
+    const config = await res.json();
+    if (config.signupUrl) {
+      document.getElementById('signupUrlInput').value = config.signupUrl;
+      updateQR(config.signupUrl);
+    }
+  } catch (e) {}
+}
+
+async function saveConfig() {
+  const url = document.getElementById('signupUrlInput').value.trim();
+  if (!url) return;
+  try {
+    const res = await fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ signupUrl: url }),
+    });
+    if (!res.ok) throw new Error();
+    updateQR(url);
+    document.getElementById('configOverlay').classList.remove('open');
+  } catch (e) {
+    alert('Kunne ikke gemme — prøv igen');
+  }
+}
+
+function updateQR(url) {
+  const encoded = encodeURIComponent(url);
+  document.getElementById('qrImg').src =
+    `https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=${encoded}&color=013138&bgcolor=FBE8BE&margin=8`;
+}
+
+// ── Signups (live poll) ────────────────────────────────────────────────────
+
+async function loadSignups() {
+  try {
+    const res = await fetch('/api/signups');
+    if (!res.ok) return;
+    const signups = await res.json();
+    if (signups.length !== knownCount) {
+      knownCount = signups.length;
+      renderSignups(signups);
+    }
+  } catch (e) {}
+}
+
+function renderSignups(signups) {
+  const list = document.getElementById('slotList');
+  const empty = document.getElementById('emptyState');
+
+  if (!signups.length) {
+    empty.style.display = 'flex';
+    list.querySelectorAll('.slot-item').forEach(e => e.remove());
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.querySelectorAll('.slot-item').forEach(e => e.remove());
+
+  signups.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'slot-item';
+    div.innerHTML = `
+      <div class="slot-num">${i + 1}</div>
+      <div>
+        <div class="slot-name">${escapeHtml(s.name)}</div>
+        <div class="slot-topic">${escapeHtml(s.topic)}</div>
+      </div>`;
+    list.appendChild(div);
+  });
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────
+
+loadConfig();
+loadSignups();
+setInterval(loadSignups, 4000);
+</script>
+</body>
+</html>
