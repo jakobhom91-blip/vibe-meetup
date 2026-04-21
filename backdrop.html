@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,9 +145,10 @@
 
   .room-title {
     font-family: 'DM Serif Display', serif;
-    font-size: 22px;
+    font-size: clamp(28px, 3vw, 42px);
     color: var(--glow);
     margin-bottom: 8px;
+    line-height: 1.1;
   }
 
   .room-desc {
@@ -441,7 +442,7 @@
   <div class="left">
     <div class="brand">
       <div class="brand-dot"></div>
-      <div class="brand-text">GROWlab × Vibe Coding Netværk KBH</div>
+      <div class="brand-text">GROWlab × Vibe Coding Network CPH</div>
     </div>
 
     <div class="hero">
@@ -451,8 +452,8 @@
         Meetup
       </div>
       <div class="meta-row">
-        <div class="pill">21. april 2026</div>
-        <div class="pill">16:00 – 20:00</div>
+        <div class="pill">April 21, 2026</div>
+        <div class="pill">4:00 – 8:00 PM</div>
         <div class="pill">Drop-in</div>
         <div class="pill">Station, Frederiksberg</div>
       </div>
@@ -460,30 +461,30 @@
 
     <div class="rooms">
       <div class="room-card">
-        <div class="room-label">Rum 1</div>
-        <div class="room-title">Byg løs</div>
-        <div class="room-desc">Åbn laptop, vælg dit AI-værktøj og kom i gang. Spørg om hjælp, hent inspiration eller sid og byg i stilhed.</div>
+        <div class="room-label">Room 1</div>
+        <div class="room-title">Open Build</div>
+        <div class="room-desc">Open your laptop, pick your AI tool and get going. Ask for help, find inspiration, or just build in silence.</div>
       </div>
       <div class="room-card">
-        <div class="room-label">Rum 2</div>
+        <div class="room-label">Room 2</div>
         <div class="room-title">Show & Tell</div>
-        <div class="room-desc">Fra 17:30 kører vi præsentationer. 3–5 min pr. person, feedback fra rummet. Meld dig via QR-koden.</div>
+        <div class="room-desc">From 5:30 PM we run presentations. 3–5 min per person, feedback from the room. Sign up via the QR code.</div>
       </div>
     </div>
 
     <div class="timeline">
-      <div class="section-label">Program</div>
+      <div class="section-label">Schedule</div>
       <div class="tl-item">
-        <div class="tl-time">16:00</div>
-        <div class="tl-text">Dørene åbner — find din plads og kom i gang</div>
+        <div class="tl-time">4:00</div>
+        <div class="tl-text">Doors open — find your spot and get started</div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">17:30</div>
-        <div class="tl-text">Show & Tell starter — 3–5 min pr. person, spørgsmål og feedback fra rummet</div>
+        <div class="tl-time">5:30</div>
+        <div class="tl-text">Show & Tell begins — 3–5 min per person, questions and feedback from the room</div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">20:00</div>
-        <div class="tl-text">Vi lukker — men snakken fortsætter</div>
+        <div class="tl-time">8:00</div>
+        <div class="tl-text">We close — but the conversation continues</div>
       </div>
     </div>
   </div>
@@ -493,42 +494,42 @@
     <div class="qr-section">
       <div class="qr-top">
         <div class="qr-eyebrow">Show & Tell</div>
-        <div class="qr-title">Vil du på scenen?</div>
+        <div class="qr-title">Want to present?</div>
       </div>
-      <img id="qrImg" src="" alt="QR kode til signup" />
+      <img id="qrImg" src="" alt="QR code for signup" />
       <div style="font-size: 12px; color: rgba(1,49,56,0.5); text-align: center; line-height: 1.5;">
-        Scan koden · Skriv dit navn og hvad du viser
+        Scan the code · Enter your name and what you're showing
       </div>
     </div>
 
     <div class="live-header">
       <div class="live-dot"></div>
-      <div class="live-label">Tilmeldte — Show & Tell</div>
+      <div class="live-label">Sign-ups — Show & Tell</div>
     </div>
 
     <div class="slot-list" id="slotList">
       <div class="empty-state" id="emptyState">
         <div class="empty-arrow">↑</div>
-        <div class="empty-text">Scan QR-koden og vær<br>den første på listen</div>
+        <div class="empty-text">Scan the QR code and be<br>the first on the list</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Config button -->
-<button class="config-btn" onclick="document.getElementById('configOverlay').classList.add('open')">⚙ opsæt</button>
+<button class="config-btn" onclick="document.getElementById('configOverlay').classList.add('open')">⚙ setup</button>
 
 <!-- Config modal -->
 <div class="config-overlay" id="configOverlay">
   <div class="config-card">
-    <h2>Opsæt signup-URL</h2>
-    <p>Indsæt URL'en til din deployede signup-side. Den bruges til at generere QR-koden herover.</p>
+    <h2>Set signup URL</h2>
+    <p>Paste the URL to your deployed signup page. It's used to generate the QR code above.</p>
     <div class="config-field">
       <label>Signup URL</label>
-      <input type="text" id="signupUrlInput" placeholder="https://din-side.vercel.app/signup.html" />
+      <input type="text" id="signupUrlInput" placeholder="https://your-site.netlify.app/signup.html" />
     </div>
-    <button class="config-save" onclick="saveConfig()">Gem og opdater QR</button>
-    <button class="config-cancel" onclick="document.getElementById('configOverlay').classList.remove('open')">Annuller</button>
+    <button class="config-save" onclick="saveConfig()">Save and update QR</button>
+    <button class="config-cancel" onclick="document.getElementById('configOverlay').classList.remove('open')">Cancel</button>
   </div>
 </div>
 
@@ -562,7 +563,7 @@ async function saveConfig() {
     updateQR(url);
     document.getElementById('configOverlay').classList.remove('open');
   } catch (e) {
-    alert('Kunne ikke gemme — prøv igen');
+    alert('Could not save — please try again');
   }
 }
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Show & Tell — Meld dig til</title>
+<title>Show & Tell — Sign up</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
@@ -215,34 +215,34 @@
 <div class="card">
   <div id="formView">
     <div class="header" style="margin-bottom: 4px;">
-      <div class="eyebrow">GROWlab × Vibe Coding Netværk KBH</div>
+      <div class="eyebrow">GROWlab × Vibe Coding Network CPH</div>
       <h1>Show &<br><em>Tell</em></h1>
     </div>
-    <p class="desc">Du får 3–5 minutter til at vise hvad du bygger eller eksperimenterer med. Spørgsmål og feedback fra rummet bagefter.</p>
+    <p class="desc">You get 3–5 minutes to show what you're building or experimenting with. Questions and feedback from the room afterwards.</p>
     <div class="fields">
       <div class="field">
-        <label>Dit navn</label>
-        <input type="text" id="nameInput" placeholder="Hvad hedder du?" autocomplete="name" />
+        <label>Your name</label>
+        <input type="text" id="nameInput" placeholder="What's your name?" autocomplete="name" />
       </div>
       <div class="field">
-        <label>Hvad vil du vise?</label>
-        <textarea id="topicInput" placeholder="Beskriv kort hvad du er i gang med — et projekt, et eksperiment, et spørgsmål du bygger hen imod..."></textarea>
-        <div class="hint">Ingen krav om at det er færdigt. Work in progress er velkomment.</div>
+        <label>What will you show?</label>
+        <textarea id="topicInput" placeholder="Briefly describe what you're working on — a project, an experiment, a question you're building towards..."></textarea>
+        <div class="hint">No requirement to be finished. Work in progress is welcome.</div>
       </div>
     </div>
-    <div class="error-msg" id="errorMsg">Noget gik galt — prøv igen</div>
-    <button class="submit-btn" id="submitBtn" onclick="submitSignup()">Meld mig til →</button>
+    <div class="error-msg" id="errorMsg">Something went wrong — please try again</div>
+    <button class="submit-btn" id="submitBtn" onclick="submitSignup()">Sign me up →</button>
   </div>
 
   <div class="success" id="successView">
     <div class="success-icon">🙌</div>
-    <h2>Du er på!</h2>
-    <p>Vi ses på scenen fra <strong>17:30</strong>. Du kan lukke denne side nu og fortsætte med at bygge.</p>
+    <h2>You're on!</h2>
+    <p>See you on stage from <strong>5:30 PM</strong>. You can close this page now and keep building.</p>
     <div class="slot-badge" id="slotBadge">Spot #1</div>
   </div>
 
   <div class="footer-note">
-    GROWlab × Vibe Coding Netværk KBH · 21. april · 16:00–20:00
+    GROWlab × Vibe Coding Network CPH · April 21 · 4:00–8:00 PM
   </div>
 </div>
 
@@ -255,13 +255,13 @@ async function submitSignup() {
 
   if (!name || !topic) {
     error.style.display = 'block';
-    error.textContent = 'Udfyld venligst begge felter';
+    error.textContent = 'Please fill in both fields';
     return;
   }
 
   error.style.display = 'none';
   btn.disabled = true;
-  btn.textContent = 'Tilmelder...';
+  btn.textContent = 'Signing up...';
 
   try {
     const res = await fetch('/api/signups', {
@@ -279,9 +279,9 @@ async function submitSignup() {
 
   } catch (e) {
     error.style.display = 'block';
-    error.textContent = 'Noget gik galt — prøv igen';
+    error.textContent = 'Something went wrong — please try again';
     btn.disabled = false;
-    btn.textContent = 'Meld mig til →';
+    btn.textContent = 'Sign me up →';
   }
 }
 
