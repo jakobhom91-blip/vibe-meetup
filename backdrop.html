@@ -40,7 +40,7 @@
 
   .layout {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr;
     height: 100vh;
     position: relative;
     z-index: 1;
@@ -48,8 +48,7 @@
 
   /* LEFT */
   .left {
-    padding: 52px 52px 52px 56px;
-    border-right: 1px solid var(--border);
+    padding: 52px 80px 52px 80px;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -557,13 +556,13 @@
       <div class="event-title">
         Pop-up<br>
         <em>Vibe Coding</em><br>
-        Meetup
+        Meetup — May 5
       </div>
 
     </div>
 
     <div class="rooms">
-      <div class="room-card">
+      <div class="room-card" style="grid-column: 1 / -1;">
         <div class="room-label">
           Room 1
           <span class="you-are-here"><span class="you-are-here-dot"></span>You are here</span>
@@ -571,52 +570,17 @@
         <div class="room-title">Open Build</div>
         <div class="room-desc">Open your laptop, pick your AI tool and get going. Ask for help, find inspiration, or just build in silence.</div>
       </div>
-      <div class="room-card">
-        <div class="room-label">Room 2</div>
-        <div class="room-title">Show & Tell</div>
-        <div class="room-desc">From 6:00 PM we run presentations. 3–5 min per person, feedback from the room. Sign up via the QR code.</div>
-      </div>
     </div>
 
     <div class="timeline">
       <div class="section-label">Schedule</div>
       <div class="tl-item">
-        <div class="tl-time">4:00</div>
+        <div class="tl-time">12:00</div>
         <div class="tl-text">Doors open — find your spot and get started</div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">6:00</div>
-        <div class="tl-text">Show & Tell begins — 3–5 min per person, questions and feedback from the room</div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-time">8:00</div>
+        <div class="tl-time">4:00</div>
         <div class="tl-text">We close — but the conversation continues</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RIGHT SIDE -->
-  <div class="right">
-    <div class="qr-section">
-      <div class="qr-top">
-        <div class="qr-eyebrow">Show & Tell</div>
-        <div class="qr-title">Want to present?</div>
-      </div>
-      <img id="qrImg" src="" alt="QR code for signup" />
-      <div style="font-size: 12px; color: rgba(1,49,56,0.5); text-align: center; line-height: 1.5;">
-        Scan the code · Enter your name and what you're showing
-      </div>
-    </div>
-
-    <div class="live-header">
-      <div class="live-dot"></div>
-      <div class="live-label">Sign-ups — Show & Tell</div>
-    </div>
-
-    <div class="slot-list" id="slotList">
-      <div class="empty-state" id="emptyState">
-        <div class="empty-arrow">↑</div>
-        <div class="empty-text">Scan the QR code and be<br>the first on the list</div>
       </div>
     </div>
   </div>
